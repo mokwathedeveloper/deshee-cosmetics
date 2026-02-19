@@ -17,15 +17,15 @@ export function KPIStatCard({
     icon: Icon,
     change,
     changeType = 'positive',
-    iconBgColor = 'bg-pink-100',
-    iconColor = 'text-pink-500',
+    iconBgColor = 'bg-muted', // Use theme muted background
+    iconColor = 'text-primary', // Use theme primary color
 }: KPIStatCardProps) {
     const changeColor =
         changeType === 'positive'
-            ? 'text-green-600'
+            ? 'text-success' // Use theme semantic success color
             : changeType === 'negative'
-                ? 'text-red-600'
-                : 'text-yellow-600';
+                ? 'text-destructive' // Use theme semantic destructive color
+                : 'text-warning'; // Use theme semantic warning color
 
     return (
         <Card className="border shadow-sm">

@@ -55,7 +55,7 @@ const config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-poppins)"],
+        sans: ["var(--font-geist-sans)"],
       },
       keyframes: {
         "accordion-down": {

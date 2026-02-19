@@ -20,11 +20,11 @@ export function AdminSidebar() {
     }
 
     return (
-        <aside className="fixed left-0 top-0 z-40 h-screen w-56 bg-primary flex flex-col">
+        <aside className="fixed left-0 top-0 z-40 h-screen w-56 bg-gray-800 flex flex-col">
             {/* Logo */}
-            <div className="flex items-center gap-2 px-5 py-5 border-b border-primary-foreground/10">
-                <Store className="h-5 w-5 text-secondary" />
-                <span className="text-primary-foreground font-bold text-sm">Admin Portal</span>
+            <div className="flex items-center gap-2 px-5 py-5 border-b border-gray-700">
+                <Store className="h-5 w-5 text-white" />
+                <span className="text-white font-bold text-sm">Admin Portal</span>
             </div>
 
             {/* Nav */}
@@ -37,8 +37,8 @@ export function AdminSidebar() {
                             key={item.href}
                             href={item.href}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active
-                                    ? 'bg-secondary text-secondary-foreground'
-                                    : 'text-primary-foreground/80 hover:text-primary-foreground hover:bg-black/10'
+                                    ? 'bg-primary text-white'
+                                    : 'text-gray-300 hover:text-white hover:bg-gray-700'
                                 }`}
                         >
                             <Icon className="h-4 w-4" />
@@ -52,7 +52,7 @@ export function AdminSidebar() {
             <div className="px-3 pb-5">
                 <Link
                     href="/"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
                 >
                     <Store className="h-4 w-4" />
                     Back to Store

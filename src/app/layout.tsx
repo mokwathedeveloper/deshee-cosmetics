@@ -1,22 +1,18 @@
+
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: {
-    default: "Beauty Shop — Premium Cosmetics & Skincare",
-    template: "%s | Beauty Shop",
+    default: "MorganShop — Premium Cosmetics & Skincare",
+    template: "%s | MorganShop",
   },
   description:
     "Discover premium cosmetics and skincare products curated for your unique beauty routine. Free shipping on orders over $50.",
   openGraph: {
-    title: "Beauty Shop — Premium Cosmetics & Skincare",
+    title: "MorganShop — Premium Cosmetics & Skincare",
     description:
       "Discover premium cosmetics and skincare products curated for your unique beauty routine.",
     type: "website",
@@ -30,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${GeistSans.variable} font-sans antialiased`}>
         {children}
         <Toaster position="top-right" richColors />
       </body>

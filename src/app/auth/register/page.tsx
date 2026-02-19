@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signUp } from '@/actions/auth';
 import { toast } from 'sonner';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -46,15 +47,15 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-background px-4">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
-                    <Link href="/" className="text-2xl font-bold text-pink-500">Beauty Shop</Link>
-                    <h1 className="text-xl font-semibold text-gray-900 mt-4">Create Account</h1>
+                    <Link href="/" className="text-2xl font-bold text-primary">Beauty Shop</Link>
+                    <h1 className="text-xl font-semibold text-foreground mt-4">Create Account</h1>
                     <p className="text-sm text-muted-foreground mt-1">Join us for exclusive beauty products.</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg border shadow-sm space-y-4">
+                <form onSubmit={handleSubmit} className="bg-card p-6 rounded-lg border shadow-sm space-y-4">
                     <div>
                         <Label htmlFor="full_name">Full Name</Label>
                         <Input id="full_name" name="full_name" value={formData.full_name} onChange={handleChange} required className="mt-1" />
@@ -75,14 +76,15 @@ export default function RegisterPage() {
                         <Label htmlFor="confirm_password">Confirm Password</Label>
                         <Input id="confirm_password" name="confirm_password" type="password" value={formData.confirm_password} onChange={handleChange} required minLength={6} className="mt-1" />
                     </div>
-                    <Button type="submit" disabled={loading} className="w-full bg-pink-500 hover:bg-pink-600">
+                    <Button type="submit" disabled={loading} className="w-full" variant="secondary">
+                        {loading && <Spinner className="mr-2 h-4 w-4" />} 
                         {loading ? 'Creating Account...' : 'Create Account'}
                     </Button>
                 </form>
 
                 <p className="text-center text-sm text-muted-foreground mt-4">
                     Already have an account?{' '}
-                    <Link href="/auth/login" className="text-pink-500 hover:text-pink-600 font-medium">
+                    <Link href="/auth/login" className="text-primary hover:underline font-medium">
                         Sign In
                     </Link>
                 </p>

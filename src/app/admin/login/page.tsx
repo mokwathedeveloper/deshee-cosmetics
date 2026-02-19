@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { signInAdmin } from '@/actions/auth';
 import { toast } from 'sonner';
 import { Store } from 'lucide-react';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function AdminLoginPage() {
     const router = useRouter();
@@ -33,46 +34,47 @@ export default function AdminLoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#1a1335] px-4">
+        <div className="min-h-screen flex items-center justify-center bg-primary px-4">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center gap-2 mb-4">
-                        <Store className="h-6 w-6 text-pink-400" />
-                        <span className="text-xl font-bold text-white">Admin Portal</span>
+                        <Store className="h-6 w-6 text-secondary" />
+                        <span className="text-xl font-bold text-primary-foreground">Admin Portal</span>
                     </div>
-                    <p className="text-sm text-gray-400">Sign in with your admin credentials.</p>
+                    <p className="text-sm text-primary-foreground/80">Sign in with your admin credentials.</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur-sm p-6 rounded-lg border border-white/10 space-y-4">
+                <form onSubmit={handleSubmit} className="bg-background/80 backdrop-blur-sm p-6 rounded-lg border border-border/50 space-y-4">
                     <div>
-                        <Label htmlFor="email" className="text-gray-300">Email</Label>
+                        <Label htmlFor="email">Email</Label>
                         <Input
                             id="email"
                             type="email"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             required
-                            className="mt-1 bg-white/10 border-white/20 text-white placeholder:text-gray-500"
+                            className="mt-1"
                         />
                     </div>
                     <div>
-                        <Label htmlFor="password" className="text-gray-300">Password</Label>
+                        <Label htmlFor="password">Password</Label>
                         <Input
                             id="password"
                             type="password"
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             required
-                            className="mt-1 bg-white/10 border-white/20 text-white placeholder:text-gray-500"
+                            className="mt-1"
                         />
                     </div>
-                    <Button type="submit" disabled={loading} className="w-full bg-pink-500 hover:bg-pink-600">
+                    <Button type="submit" disabled={loading} className="w-full" variant="secondary">
+                        {loading && <Spinner className="mr-2 h-4 w-4" />} 
                         {loading ? 'Signing in...' : 'Sign In'}
                     </Button>
                 </form>
 
-                <p className="text-center text-sm text-gray-500 mt-4">
-                    <Link href="/" className="text-pink-400 hover:text-pink-300">← Back to Store</Link>
+                <p className="text-center text-sm text-primary-foreground/60 mt-4">
+                    <Link href="/" className="hover:text-primary-foreground transition-colors">← Back to Store</Link>
                 </p>
             </div>
         </div>

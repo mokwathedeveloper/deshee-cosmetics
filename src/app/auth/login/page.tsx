@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { signIn } from '@/actions/auth';
 import { toast } from 'sonner';
+import { Spinner } from '@/components/ui/spinner';
 
 function LoginForm() {
     const router = useRouter();
@@ -35,15 +36,15 @@ function LoginForm() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-background px-4">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
-                    <Link href="/" className="text-2xl font-bold text-pink-500">Beauty Shop</Link>
-                    <h1 className="text-xl font-semibold text-gray-900 mt-4">Sign In</h1>
+                    <Link href="/" className="text-2xl font-bold text-primary">Beauty Shop</Link>
+                    <h1 className="text-xl font-semibold text-foreground mt-4">Sign In</h1>
                     <p className="text-sm text-muted-foreground mt-1">Welcome back! Enter your credentials.</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg border shadow-sm space-y-4">
+                <form onSubmit={handleSubmit} className="bg-card p-6 rounded-lg border shadow-sm space-y-4">
                     <div>
                         <Label htmlFor="email">Email</Label>
                         <Input
@@ -66,14 +67,15 @@ function LoginForm() {
                             className="mt-1"
                         />
                     </div>
-                    <Button type="submit" disabled={loading} className="w-full bg-pink-500 hover:bg-pink-600">
+                    <Button type="submit" disabled={loading} className="w-full" variant="secondary">
+                        {loading && <Spinner className="mr-2 h-4 w-4" />}
                         {loading ? 'Signing in...' : 'Sign In'}
                     </Button>
                 </form>
 
                 <p className="text-center text-sm text-muted-foreground mt-4">
                     Don&apos;t have an account?{' '}
-                    <Link href="/auth/register" className="text-pink-500 hover:text-pink-600 font-medium">
+                    <Link href="/auth/register" className="text-primary hover:underline font-medium">
                         Create Account
                     </Link>
                 </p>

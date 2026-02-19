@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Search, User, ShoppingBag, Menu, X, Phone } from 'lucide-react';
 import { storeNavItems, siteConfig } from '@/config/site';
 import { useCart } from '@/hooks/use-cart';
@@ -25,7 +26,7 @@ export function Header() {
             <div className="bg-[#036B3F] overflow-hidden whitespace-nowrap">
                 <div className="animate-marquee inline-block py-1.5">
                     <span className="text-[11px] text-white/90 tracking-wide mx-8">
-                        ✨ FREE SHIPPING on orders over $50
+                        ✨ FREE DELIVERY in Nairobi on orders over KES 5,000
                     </span>
                     <span className="text-[11px] text-white/70 mx-8">|</span>
                     <span className="text-[11px] text-white/90 tracking-wide mx-8">
@@ -33,11 +34,11 @@ export function Header() {
                     </span>
                     <span className="text-[11px] text-white/70 mx-8">|</span>
                     <span className="text-[11px] text-white/90 tracking-wide mx-8">
-                        💯 100% Authentic Products
+                        💯 100% Authentic Products — Original Brands Only
                     </span>
                     <span className="text-[11px] text-white/70 mx-8">|</span>
                     <span className="text-[11px] text-white/90 tracking-wide mx-8">
-                        ✨ FREE SHIPPING on orders over $50
+                        ✨ FREE DELIVERY in Nairobi on orders over KES 5,000
                     </span>
                     <span className="text-[11px] text-white/70 mx-8">|</span>
                     <span className="text-[11px] text-white/90 tracking-wide mx-8">
@@ -80,9 +81,14 @@ export function Header() {
 
                             {/* Logo */}
                             <Link href="/" className="flex items-center">
-                                <span className="text-2xl font-bold tracking-tight text-gray-900">
-                                    Morgan<span className="text-[#036B3F]">Shop</span>
-                                </span>
+                                <Image
+                                    src={siteConfig.logo}
+                                    alt={siteConfig.name}
+                                    width={140}
+                                    height={60}
+                                    className="h-12 lg:h-14 w-auto object-contain"
+                                    priority
+                                />
                             </Link>
 
                             {/* Desktop Nav — Pill Shape */}
@@ -92,8 +98,8 @@ export function Header() {
                                         key={item.href}
                                         href={item.href}
                                         className={`px-5 py-2 text-[12px] font-semibold tracking-[0.12em] uppercase rounded-full transition-all ${pathname === item.href
-                                                ? 'bg-white text-[#036B3F]'
-                                                : 'text-white hover:bg-white/15'
+                                            ? 'bg-white text-[#036B3F]'
+                                            : 'text-white hover:bg-white/15'
                                             }`}
                                     >
                                         {item.label}
@@ -152,8 +158,8 @@ export function Header() {
                                     href={item.href}
                                     onClick={() => setMobileOpen(false)}
                                     className={`px-4 py-3 rounded-lg text-sm font-semibold uppercase tracking-wide transition-colors ${pathname === item.href
-                                            ? 'bg-[#036B3F] text-white'
-                                            : 'text-gray-700 hover:bg-green-50 hover:text-[#036B3F]'
+                                        ? 'bg-[#036B3F] text-white'
+                                        : 'text-gray-700 hover:bg-green-50 hover:text-[#036B3F]'
                                         }`}
                                 >
                                     {item.label}

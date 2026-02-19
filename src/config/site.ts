@@ -1,8 +1,9 @@
 export const siteConfig = {
-    name: 'MorganShop',
+    name: 'DeeShee Beauty Empire',
     description: 'Premium beauty & skincare products — delivering across Kenya.',
-    url: 'https://morganshop.co.ke',
+    url: 'https://deshee-cosmetics.co.ke',
     currency: 'KES',
+    logo: '/logo-deeshee.png',
 };
 
 export const storeNavItems = [

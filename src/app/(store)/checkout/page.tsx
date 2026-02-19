@@ -1,4 +1,4 @@
-import { CheckoutForm } from '@/components/forms/checkout-form';
+import { CheckoutForm } from '@/components/forms/checkout-form-simple';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

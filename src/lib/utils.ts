@@ -45,7 +45,7 @@ export function generateOrderNumber(): string {
 
 export function getStockStatus(stock: number): { label: string; variant: 'default' | 'destructive' | 'secondary' } {
   if (stock === 0) return { label: 'Out of Stock', variant: 'destructive' };
-  if (stock <= 20) return { label: 'Low Stock', variant: 'warning' }; // Changed to warning
+  if (stock <= 20) return { label: 'Low Stock', variant: 'secondary' };
   return { label: 'In Stock', variant: 'default' };
 }
 

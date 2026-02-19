@@ -101,12 +101,21 @@ const FormLabel = React.forwardRef<
 FormLabel.displayName = "FormLabel"
 
 const FormControl = React.forwardRef<
-  React.ElementRef<typeof React.Fragment>,
-  React.ComponentPropsWithoutRef<typeof React.Fragment>
+  React.ElementRef<"div">,
+  React.ComponentPropsWithoutRef<"div">
 >(({ ...props }, ref) => {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
+
   return (
-    <React.Fragment
+    <div
       ref={ref}
+      id={formItemId}
+      aria-describedby={
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
+      }
+      aria-invalid={!!error}
       {...props}
     />
   )

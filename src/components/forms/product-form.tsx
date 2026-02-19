@@ -22,9 +22,9 @@ const formSchema = z.object({
     name: z.string().min(2, { message: "Product name must be at least 2 characters." }),
     slug: z.string().min(2, { message: "Slug must be at least 2 characters." }),
     description: z.string().optional(),
-    price: z.coerce.number().positive({ message: "Price must be a positive number." }),
-    compare_at_price: z.coerce.number().positive().optional().nullable(),
-    stock: z.coerce.number().int().min(0, { message: "Stock can't be negative." }),
+    price: z.number().positive({ message: "Price must be a positive number." }),
+    compare_at_price: z.number().positive().optional().nullable(),
+    stock: z.number().int().min(0, { message: "Stock can't be negative." }),
     sku: z.string().optional(),
     brand: z.string().optional(),
     status: z.enum(['active', 'inactive']),
@@ -152,7 +152,7 @@ export function ProductForm({ product }: ProductFormProps) {
                                 <FormItem>
                                     <FormLabel>Price *</FormLabel>
                                     <FormControl>
-                                        <Input type="number" step="0.01" {...field} />
+                                        <Input type="number" step="0.01" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -165,7 +165,7 @@ export function ProductForm({ product }: ProductFormProps) {
                                 <FormItem>
                                     <FormLabel>Compare at Price</FormLabel>
                                     <FormControl>
-                                        <Input type="number" step="0.01" {...field} value={field.value ?? ''} />
+                                        <Input type="number" step="0.01" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value ? parseFloat(e.target.value) : null)} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -178,7 +178,7 @@ export function ProductForm({ product }: ProductFormProps) {
                                 <FormItem>
                                     <FormLabel>Stock *</FormLabel>
                                     <FormControl>
-                                        <Input type="number" {...field} />
+                                        <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

@@ -104,17 +104,9 @@ const FormControl = React.forwardRef<
   React.ElementRef<typeof React.Fragment>,
   React.ComponentPropsWithoutRef<typeof React.Fragment>
 >(({ ...props }, ref) => {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
-
   return (
     <React.Fragment
       ref={ref}
-      aria-invalid={!!error}
-      aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
-      }
       {...props}
     />
   )

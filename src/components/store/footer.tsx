@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Instagram, Facebook, Twitter, Mail } from 'lucide-react';
 import { siteConfig } from '@/config/site';
+import { Logo } from './logo';
 
 export function Footer() {
     return (
@@ -11,13 +11,7 @@ export function Footer() {
                     {/* Brand */}
                     <div className="col-span-2 md:col-span-4 lg:col-span-4">
                         <Link href="/" className="inline-block mb-4">
-                            <Image
-                                src={siteConfig.logo}
-                                alt={siteConfig.name}
-                                width={120}
-                                height={50}
-                                className="h-12 w-auto object-contain brightness-0 invert"
-                            />
+                            <Logo inverted />
                         </Link>
                         <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-5">
                             Your trusted destination for premium, authentic beauty products. Quality you can feel.

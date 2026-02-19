@@ -2,19 +2,18 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "@/components/ui/sonner";
+import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "MorganShop — Premium Cosmetics & Skincare",
-    template: "%s | MorganShop",
+    default: `${siteConfig.name} — Premium Cosmetics & Skincare`,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "Discover premium cosmetics and skincare products curated for your unique beauty routine. Free shipping on orders over $50.",
+  description: siteConfig.description,
   openGraph: {
-    title: "MorganShop — Premium Cosmetics & Skincare",
-    description:
-      "Discover premium cosmetics and skincare products curated for your unique beauty routine.",
+    title: `${siteConfig.name} — Premium Cosmetics & Skincare`,
+    description: siteConfig.description,
     type: "website",
   },
 };

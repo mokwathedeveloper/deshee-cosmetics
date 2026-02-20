@@ -22,10 +22,10 @@ export function KPIStatCard({
 }: KPIStatCardProps) {
     const changeColor =
         changeType === 'positive'
-            ? 'text-success' // Use theme semantic success color
+            ? 'text-emerald-600' // Standard tailwind green
             : changeType === 'negative'
                 ? 'text-destructive' // Use theme semantic destructive color
-                : 'text-warning'; // Use theme semantic warning color
+                : 'text-amber-600'; // Standard tailwind warning color
 
     return (
         <Card className="border shadow-sm">

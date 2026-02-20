@@ -64,7 +64,7 @@ export function Hero() {
 
                     {/* Right Visual */}
                     <div className="lg:col-span-5 relative animate-in fade-in slide-in-from-right duration-1000 delay-200">
-                        <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl border-4 border-white">
+                        <div className="relative h-[320px] md:h-[420px] lg:h-[520px] rounded-[40px] overflow-hidden shadow-2xl border-4 border-white">
                             <Image 
                                 src="/hero.jpg" 
                                 alt="Cosmetics essentials — DeeShee Beauty Empire" 

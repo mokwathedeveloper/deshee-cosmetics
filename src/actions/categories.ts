@@ -12,7 +12,7 @@ export async function getCategories(): Promise<Category[]> {
         .order('sort_order', { ascending: true });
 
     if (error) {
-        console.error('Error fetching categories:', error);
+        console.error('Error fetching categories:', JSON.stringify(error, null, 2));
         return [];
     }
 
@@ -29,7 +29,7 @@ export async function getFeaturedCategories(): Promise<Category[]> {
         .order('sort_order', { ascending: true });
 
     if (error) {
-        console.error('Error fetching featured categories:', error);
+        console.error('Error fetching featured categories:', JSON.stringify(error, null, 2));
         return [];
     }
 
@@ -46,7 +46,7 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
         .single();
 
     if (error) {
-        console.error('Error fetching category:', error);
+        console.error('Error fetching category:', JSON.stringify(error, null, 2));
         return null;
     }
 

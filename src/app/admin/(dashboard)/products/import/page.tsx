@@ -15,6 +15,7 @@ import {
     RefreshCw,
     AlertTriangle,
     Edit3,
+    ChevronDown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -249,75 +250,73 @@ export default function ImportProductsPage() {
     const filteredCurated = getFilteredCurated();
 
     return (
-        <div>
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                <div className="flex items-center gap-3">
+        <div className="space-y-10 animate-in fade-in duration-700 pb-20">
+            {/* Header Area */}
+            <div className="space-y-6">
+                <Button asChild variant="ghost" className="rounded-full px-4 -ml-4 text-muted-foreground hover:text-primary transition-all">
                     <Link href="/admin/products">
-                        <Button variant="ghost" size="sm">
-                            <ArrowLeft className="h-4 w-4 mr-1" /> Back
-                        </Button>
+                        <ArrowLeft className="mr-2 h-4 w-4" /> Inventory Ledger
                     </Link>
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900">Import Products</h1>
-                        <p className="text-sm text-gray-500">
-                            Browse products, set your own KES prices, and import
-                        </p>
+                </Button>
+
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
+                    <div className="space-y-1">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">Data Acquisition</p>
+                        <h1 className="text-3xl md:text-5xl font-black text-foreground tracking-tighter uppercase">
+                            Import <span className="text-primary/40 font-serif lowercase italic font-normal tracking-normal ml-2">assets</span>
+                        </h1>
                     </div>
-                </div>
-                <div className="flex gap-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-red-600 border-red-200 hover:bg-red-50"
-                        onClick={() => setShowResetDialog(true)}
-                    >
-                        <Trash2 className="h-4 w-4 mr-1" /> Reset DB
-                    </Button>
-                    {sourceTab === 'curated' && (
+                    <div className="flex items-center gap-3">
                         <Button
-                            size="sm"
-                            className="bg-[#036B3F] hover:bg-[#025a33] text-white"
-                            onClick={handleImportAllCurated}
-                            disabled={!selectedCategoryId}
+                            variant="outline"
+                            className="rounded-xl border-destructive/20 text-destructive hover:bg-destructive/5 font-black text-[10px] uppercase tracking-widest h-11 px-6"
+                            onClick={() => setShowResetDialog(true)}
                         >
-                            <Download className="h-4 w-4 mr-1" /> Import All Visible
+                            <Trash2 className="h-3.5 w-3.5 mr-2" /> Decommission DB
                         </Button>
-                    )}
+                        {sourceTab === 'curated' && (
+                            <Button
+                                className="rounded-xl font-black text-[10px] uppercase tracking-widest h-11 px-6 shadow-lg shadow-primary/20"
+                                onClick={handleImportAllCurated}
+                                disabled={!selectedCategoryId}
+                            >
+                                <Download className="h-3.5 w-3.5 mr-2" /> Bulk Ingest
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
 
             {/* Reset Dialog */}
             {showResetDialog && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-xl p-6 max-w-md mx-4 shadow-2xl">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="bg-red-100 p-2 rounded-full">
-                                <AlertTriangle className="h-5 w-5 text-red-600" />
+                <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-300">
+                    <div className="bg-card rounded-[40px] p-10 max-w-md mx-4 shadow-2xl border border-border/50">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="bg-destructive/10 p-3 rounded-2xl">
+                                <AlertTriangle className="h-6 w-6 text-destructive" />
                             </div>
-                            <h2 className="text-lg font-bold text-gray-900">Reset Database?</h2>
+                            <h2 className="text-2xl font-black uppercase tracking-tighter">System Reset</h2>
                         </div>
-                        <p className="text-sm text-gray-600 mb-2">This will:</p>
-                        <ul className="text-sm text-gray-600 mb-4 list-disc list-inside space-y-1">
-                            <li>Delete <strong>ALL</strong> existing products and images</li>
-                            <li>Delete all existing categories</li>
-                            <li>Create 8 fresh beauty categories</li>
-                        </ul>
-                        <p className="text-xs text-red-500 font-medium mb-4">⚠ This action cannot be undone!</p>
-                        <div className="flex gap-3 justify-end">
-                            <Button variant="outline" size="sm" onClick={() => setShowResetDialog(false)} disabled={resetting}>
-                                Cancel
+                        <p className="text-sm font-medium text-muted-foreground mb-6 leading-relaxed">
+                            This operation will perform a <span className="text-foreground font-bold">total wipe</span> of all products, images, and categories. Fresh beauty hierarchies will be re-initialized.
+                        </p>
+                        <div className="bg-destructive/5 p-4 rounded-2xl border border-destructive/10 mb-8">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-destructive">Critical Warning</p>
+                            <p className="text-xs font-bold text-destructive/80 mt-1">This action is irreversible and final.</p>
+                        </div>
+                        <div className="flex gap-3">
+                            <Button variant="ghost" className="flex-1 rounded-xl font-bold text-[10px] uppercase tracking-widest h-12" onClick={() => setShowResetDialog(false)} disabled={resetting}>
+                                Abort
                             </Button>
                             <Button
-                                size="sm"
-                                className="bg-red-600 hover:bg-red-700 text-white"
+                                className="flex-1 bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-xl font-black text-[10px] uppercase tracking-widest h-12"
                                 onClick={handleReset}
                                 disabled={resetting}
                             >
                                 {resetting ? (
-                                    <><Loader2 className="h-4 w-4 mr-1 animate-spin" /> Resetting...</>
+                                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Finalizing...</>
                                 ) : (
-                                    <><RefreshCw className="h-4 w-4 mr-1" /> Yes, Reset</>
+                                    <><RefreshCw className="h-4 w-4 mr-2" /> Confirm Wipe</>
                                 )}
                             </Button>
                         </div>
@@ -325,40 +324,41 @@ export default function ImportProductsPage() {
                 </div>
             )}
 
-            {/* Source Tabs: Curated vs API */}
-            <div className="flex border-b mb-4">
+            {/* Source Selection Area */}
+            <div className="bg-muted/30 p-2 rounded-[32px] inline-flex gap-2 border border-border/40">
                 <button
                     onClick={() => { setSourceTab('curated'); setSearch(''); }}
-                    className={`px-6 py-3 text-sm font-semibold border-b-2 transition-all ${sourceTab === 'curated'
-                        ? 'border-[#036B3F] text-[#036B3F]'
-                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                    className={`px-8 py-4 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${sourceTab === 'curated'
+                        ? 'bg-card text-primary shadow-xl border border-border/50'
+                        : 'text-muted-foreground hover:text-foreground'
                         }`}
                 >
-                    🇰🇪 Kenyan Brands ({curatedProducts.length} products)
+                    🇰🇪 Domestic Selection
                 </button>
                 <button
                     onClick={() => { setSourceTab('api'); setSearch(''); }}
-                    className={`px-6 py-3 text-sm font-semibold border-b-2 transition-all ${sourceTab === 'api'
-                        ? 'border-[#036B3F] text-[#036B3F]'
-                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                    className={`px-8 py-4 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${sourceTab === 'api'
+                        ? 'bg-card text-primary shadow-xl border border-border/50'
+                        : 'text-muted-foreground hover:text-foreground'
                         }`}
                 >
-                    🌍 International Brands (900+ products)
+                    🌍 International Feed
                 </button>
             </div>
 
-            {/* Controls */}
-            <div className="bg-white border rounded-lg p-4 mb-4 space-y-3">
-                {/* Category filters */}
-                <div className="flex flex-wrap items-center gap-2">
+            {/* Controls Ledger */}
+            <div className="bg-card border border-border/50 rounded-[40px] p-8 space-y-6 shadow-sm">
+                {/* Sector Filters */}
+                <div className="flex flex-wrap items-center gap-2 pb-4 border-b border-border/40">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mr-4">Filter Sectors:</p>
                     {sourceTab === 'curated'
                         ? CURATED_CATEGORIES.map((cat) => (
                             <button
                                 key={cat.key}
                                 onClick={() => setActiveCategory(cat.key)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeCategory === cat.key
-                                    ? 'bg-[#036B3F] text-white'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${activeCategory === cat.key
+                                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20'
+                                    : 'bg-muted/50 text-muted-foreground hover:bg-muted transition-colors'
                                     }`}
                             >
                                 {cat.label}
@@ -368,9 +368,9 @@ export default function ImportProductsPage() {
                             <button
                                 key={cat.key}
                                 onClick={() => setApiCategory(cat.key)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${apiCategory === cat.key
-                                    ? 'bg-[#036B3F] text-white'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${apiCategory === cat.key
+                                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20'
+                                    : 'bg-muted/50 text-muted-foreground hover:bg-muted transition-colors'
                                     }`}
                             >
                                 {cat.label}
@@ -378,247 +378,155 @@ export default function ImportProductsPage() {
                         ))}
                 </div>
 
-                {/* Search + Store Category */}
-                <div className="flex flex-col sm:flex-row gap-3">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                {/* Operations Bar */}
+                <div className="flex flex-col lg:row gap-4">
+                    <div className="flex-1 relative group">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
                             placeholder={
                                 sourceTab === 'curated'
-                                    ? 'Search brands (Dove, Nivea, Vaseline, Lux...)...'
-                                    : 'Search brands (maybelline, dior, l\'oreal)...'
+                                    ? 'Search domestic registries (Dove, Nivea, Vaseline...)...'
+                                    : 'Search global feeds (maybelline, dior, l\'oreal)...'
                             }
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="pl-10"
+                            className="pl-12 h-14 rounded-2xl bg-muted/30 border-border/50 focus:ring-primary/20 transition-all text-sm font-medium"
                         />
                     </div>
-                    <select
-                        value={selectedCategoryId}
-                        onChange={(e) => setSelectedCategoryId(e.target.value)}
-                        className="px-4 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-[#036B3F]/30 focus:border-[#036B3F] outline-none min-w-[200px]"
-                    >
-                        <option value="">Import into category...</option>
-                        {categories.map((cat) => (
-                            <option key={cat.id} value={cat.id}>{cat.name}</option>
-                        ))}
-                    </select>
+                    <div className="relative group min-w-[280px]">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors flex items-center">
+                            <Package className="h-4 w-4" />
+                        </div>
+                        <select
+                            value={selectedCategoryId}
+                            onChange={(e) => setSelectedCategoryId(e.target.value)}
+                            className="appearance-none w-full pl-12 pr-10 h-14 rounded-2xl bg-muted/30 border-border/50 focus:ring-primary/20 cursor-pointer transition-all text-[11px] font-bold uppercase tracking-widest"
+                        >
+                            <option value="">Target Sector Registry...</option>
+                            {categories.map((cat) => (
+                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                            ))}
+                        </select>
+                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground pointer-events-none group-hover:text-primary transition-colors" />
+                    </div>
                 </div>
 
-                {/* Info bar */}
-                <div className="flex items-center justify-between">
-                    <p className="text-xs text-gray-400">
-                        {sourceTab === 'curated'
-                            ? `${filteredCurated.length} products`
-                            : loading ? 'Loading...' : `${total} products found`}
-                    </p>
+                <div className="flex items-center justify-between pt-2">
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                            {sourceTab === 'curated'
+                                ? `${filteredCurated.length} Local Units Identified`
+                                : loading ? 'Polling External Feed...' : `${total} Global Units Located`}
+                        </p>
+                    </div>
                     {categories.length === 0 && (
-                        <p className="text-xs text-amber-600 font-medium flex items-center gap-1">
-                            <AlertTriangle className="h-3 w-3" />
-                            No categories! Click &quot;Reset DB&quot; to create beauty categories.
+                        <p className="text-[10px] font-black uppercase tracking-widest text-amber-600 flex items-center gap-2">
+                            <AlertTriangle className="h-3.5 w-3.5" />
+                            Hierarchies missing. Initalize via DB decommissioning.
                         </p>
                     )}
                 </div>
             </div>
 
-            {/* ───── CURATED PRODUCTS GRID ───── */}
-            {sourceTab === 'curated' && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {filteredCurated.map((product) => {
-                        const isImported = importedSkus.has(product.id);
-                        const isImporting = importingSkus.has(product.id);
-                        const currentPrice = customPrices[product.id] ?? product.suggestedPrice;
+            {/* Ingestion Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {(sourceTab === 'curated' ? filteredCurated : products).map((product) => {
+                    const id = sourceTab === 'curated' ? (product as CuratedProduct).id : (product as ExternalProduct).sku;
+                    const title = sourceTab === 'curated' ? (product as CuratedProduct).name : (product as ExternalProduct).title;
+                    const image = sourceTab === 'curated' ? (product as CuratedProduct).image : (product as ExternalProduct).thumbnail;
+                    const brand = product.brand;
+                    const desc = sourceTab === 'curated' ? (product as CuratedProduct).description : (product as ExternalProduct).description;
+                    const basePrice = sourceTab === 'curated' ? (product as CuratedProduct).suggestedPrice : (product as ExternalProduct).price;
+                    const rating = sourceTab === 'curated' ? 4.5 : (product as ExternalProduct).rating;
+                    
+                    const isImported = importedSkus.has(id);
+                    const isImporting = importingSkus.has(id);
+                    const currentPrice = customPrices[id] ?? basePrice;
 
-                        return (
-                            <div
-                                key={product.id}
-                                className={`bg-white border rounded-xl overflow-hidden transition-all hover:shadow-md ${isImported ? 'opacity-60 border-green-200' : ''
-                                    }`}
-                            >
-                                {/* Image */}
-                                <div className="relative aspect-square bg-gray-50 overflow-hidden">
-                                    <Image
-                                        src={product.image}
-                                        alt={product.name}
-                                        fill
-                                        className="object-cover"
-                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                                        unoptimized
-                                    />
-                                    {isImported && (
-                                        <span className="absolute top-2 right-2 bg-[#036B3F] text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
-                                            <Check className="h-3 w-3" /> Imported
-                                        </span>
+                    return (
+                        <div
+                            key={id}
+                            className={`group bg-card border border-border/50 rounded-[32px] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 ${isImported ? 'opacity-60 grayscale-[0.5]' : ''}`}
+                        >
+                            <div className="relative aspect-square bg-muted/20 overflow-hidden">
+                                <Image
+                                    src={image}
+                                    alt={title}
+                                    fill
+                                    className={`object-${sourceTab === 'api' ? 'contain p-8' : 'cover'} transition-transform duration-700 group-hover:scale-110`}
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                    unoptimized
+                                />
+                                {isImported && (
+                                    <div className="absolute inset-0 bg-primary/10 backdrop-blur-[2px] flex items-center justify-center">
+                                        <div className="bg-primary text-primary-foreground text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-xl">
+                                            Registered
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="p-6 space-y-4">
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-1">
+                                        {brand || 'Universal'}
+                                    </p>
+                                    <h3 className="text-sm font-bold text-foreground tracking-tight leading-snug line-clamp-1 group-hover:text-primary transition-colors">
+                                        {title}
+                                    </h3>
+                                    {sourceTab === 'api' && (
+                                        <div className="flex items-center gap-1.5 mt-1.5">
+                                            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                                            <span className="text-[10px] font-black text-muted-foreground">{rating.toFixed(1)}</span>
+                                        </div>
                                     )}
                                 </div>
 
-                                {/* Info */}
-                                <div className="p-3.5">
-                                    <p className="text-[10px] font-semibold tracking-wider uppercase text-[#036B3F] mb-1">
-                                        {product.brand}
-                                    </p>
-                                    <h3 className="text-sm font-medium text-gray-800 leading-snug mb-2 line-clamp-2">
-                                        {product.name}
-                                    </h3>
-                                    <p className="text-[11px] text-gray-400 mb-3 line-clamp-2">
-                                        {product.description}
-                                    </p>
-
-                                    {/* Editable Price */}
-                                    <div className="flex items-center gap-2 mb-3">
-                                        <span className="text-xs text-gray-500">KES</span>
-                                        <div className="relative flex-1">
-                                            <input
-                                                type="number"
-                                                value={currentPrice}
-                                                onChange={(e) => {
-                                                    const val = parseInt(e.target.value) || 0;
-                                                    setCustomPrices((prev) => ({ ...prev, [product.id]: val }));
-                                                }}
-                                                className="w-full px-3 py-1.5 text-base font-bold text-[#E02B27] border rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#036B3F]/30 focus:border-[#036B3F] outline-none"
-                                                disabled={isImported}
-                                            />
-                                            <Edit3 className="absolute right-2 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-300" />
-                                        </div>
+                                <div className="space-y-1.5">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground opacity-60 ml-1">Valuation (KES)</p>
+                                    <div className="relative">
+                                        <input
+                                            type="number"
+                                            value={currentPrice}
+                                            onChange={(e) => {
+                                                const val = parseInt(e.target.value) || 0;
+                                                setCustomPrices((prev) => ({ ...prev, [id]: val }));
+                                            }}
+                                            className="w-full px-4 h-11 text-sm font-black text-foreground border border-border/50 rounded-xl bg-muted/30 focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                            disabled={isImported}
+                                        />
+                                        <Edit3 className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/40 group-focus-within:text-primary transition-colors" />
                                     </div>
-
-                                    {/* Tags */}
-                                    <div className="flex flex-wrap gap-1 mb-3">
-                                        {product.tags.slice(0, 3).map((tag) => (
-                                            <span key={tag} className="text-[9px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {/* Import Button */}
-                                    <button
-                                        onClick={() => handleImportCurated(product)}
-                                        disabled={isImported || isImporting || !selectedCategoryId}
-                                        className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${isImported
-                                            ? 'bg-green-50 text-green-600 cursor-default'
-                                            : isImporting
-                                                ? 'bg-gray-100 text-gray-400 cursor-wait'
-                                                : !selectedCategoryId
-                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                                    : 'bg-[#036B3F] text-white hover:bg-[#025a33] active:scale-[0.98]'
-                                            }`}
-                                    >
-                                        {isImported ? (
-                                            <><Check className="h-4 w-4" /> Imported</>
-                                        ) : isImporting ? (
-                                            <><Loader2 className="h-4 w-4 animate-spin" /> Importing...</>
-                                        ) : (
-                                            <><Download className="h-4 w-4" /> Import at KES {currentPrice}</>
-                                        )}
-                                    </button>
                                 </div>
+
+                                <Button
+                                    onClick={() => sourceTab === 'curated' ? handleImportCurated(product as CuratedProduct) : handleImportApi(product as ExternalProduct)}
+                                    disabled={isImported || isImporting || !selectedCategoryId}
+                                    className={`w-full h-12 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                                        isImported 
+                                            ? 'bg-muted text-muted-foreground' 
+                                            : 'shadow-lg shadow-primary/10 hover:shadow-primary/20'
+                                    }`}
+                                >
+                                    {isImported ? (
+                                        <><Check className="h-3.5 w-3.5 mr-2" /> Registered</>
+                                    ) : isImporting ? (
+                                        <><Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> Ingesting...</>
+                                    ) : (
+                                        <><Download className="h-3.5 w-3.5 mr-2" /> Ingest Unit</>
+                                    )}
+                                </Button>
                             </div>
-                        );
-                    })}
+                        </div>
+                    );
+                })}
+            </div>
+
+            {sourceTab === 'api' && loading && products.length === 0 && (
+                <div className="py-20 flex justify-center">
+                    <Loader2 className="h-10 w-10 animate-spin text-primary opacity-20" />
                 </div>
-            )}
-
-            {/* ───── API PRODUCTS GRID ───── */}
-            {sourceTab === 'api' && (
-                <>
-                    {loading ? (
-                        <div className="flex items-center justify-center py-20">
-                            <Loader2 className="h-8 w-8 animate-spin text-[#036B3F]" />
-                        </div>
-                    ) : products.length === 0 ? (
-                        <div className="text-center py-20">
-                            <Package className="h-12 w-12 mx-auto text-gray-300 mb-3" />
-                            <p className="text-gray-500 font-medium">No products found</p>
-                            <p className="text-sm text-gray-400">Try a different category or search for a brand</p>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            {products.map((product) => {
-                                const isImported = importedSkus.has(product.sku);
-                                const isImporting = importingSkus.has(product.sku);
-                                const currentPrice = customPrices[product.sku] ?? product.price;
-
-                                return (
-                                    <div
-                                        key={product.id}
-                                        className={`bg-white border rounded-xl overflow-hidden transition-all hover:shadow-md ${isImported ? 'opacity-60 border-green-200' : ''
-                                            }`}
-                                    >
-                                        <div className="relative aspect-square bg-gray-50 overflow-hidden">
-                                            <Image
-                                                src={product.thumbnail}
-                                                alt={product.title}
-                                                fill
-                                                className="object-contain p-4"
-                                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                                                unoptimized
-                                            />
-                                            {isImported && (
-                                                <span className="absolute top-2 right-2 bg-[#036B3F] text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
-                                                    <Check className="h-3 w-3" /> Imported
-                                                </span>
-                                            )}
-                                        </div>
-                                        <div className="p-3.5">
-                                            {product.brand && (
-                                                <p className="text-[10px] font-semibold tracking-wider uppercase text-[#036B3F] mb-1">
-                                                    {product.brand}
-                                                </p>
-                                            )}
-                                            <h3 className="text-sm font-medium text-gray-800 leading-snug mb-2 line-clamp-2">
-                                                {product.title}
-                                            </h3>
-                                            <div className="flex items-center gap-1 mb-2">
-                                                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                                                <span className="text-xs text-gray-500">{product.rating.toFixed(1)}</span>
-                                            </div>
-
-                                            {/* Editable Price */}
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <span className="text-xs text-gray-500">KES</span>
-                                                <div className="relative flex-1">
-                                                    <input
-                                                        type="number"
-                                                        value={currentPrice}
-                                                        onChange={(e) => {
-                                                            const val = parseInt(e.target.value) || 0;
-                                                            setCustomPrices((prev) => ({ ...prev, [product.sku]: val }));
-                                                        }}
-                                                        className="w-full px-3 py-1.5 text-base font-bold text-[#E02B27] border rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#036B3F]/30 focus:border-[#036B3F] outline-none"
-                                                        disabled={isImported}
-                                                    />
-                                                    <Edit3 className="absolute right-2 top-1/2 -translate-y-1/2 h-3 w-3 text-gray-300" />
-                                                </div>
-                                            </div>
-
-                                            <button
-                                                onClick={() => handleImportApi(product)}
-                                                disabled={isImported || isImporting || !selectedCategoryId}
-                                                className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${isImported
-                                                    ? 'bg-green-50 text-green-600 cursor-default'
-                                                    : isImporting
-                                                        ? 'bg-gray-100 text-gray-400 cursor-wait'
-                                                        : !selectedCategoryId
-                                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                                            : 'bg-[#036B3F] text-white hover:bg-[#025a33] active:scale-[0.98]'
-                                                    }`}
-                                            >
-                                                {isImported ? (
-                                                    <><Check className="h-4 w-4" /> Imported</>
-                                                ) : isImporting ? (
-                                                    <><Loader2 className="h-4 w-4 animate-spin" /> Importing...</>
-                                                ) : (
-                                                    <><Download className="h-4 w-4" /> Import at KES {currentPrice}</>
-                                                )}
-                                            </button>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    )}
-                </>
             )}
         </div>
     );

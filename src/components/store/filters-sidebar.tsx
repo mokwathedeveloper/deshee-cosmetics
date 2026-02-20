@@ -30,19 +30,19 @@ function FiltersSidebarInner({ categories, activeCategory }: FiltersSidebarProps
     const hasFilters = activeCategory || minPrice || maxPrice;
 
     return (
-        <aside className="space-y-6">
+        <aside className="space-y-8">
             {/* Categories */}
             <div>
-                <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase text-stone-400 mb-3">
+                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase text-muted-foreground mb-4">
                     Categories
                 </h3>
-                <ul className="space-y-0.5">
+                <ul className="space-y-1">
                     <li>
                         <Link
                             href="/shop"
-                            className={`block px-3 py-2 rounded-lg text-sm transition-all ${!activeCategory
-                                ? 'bg-[#036B3F] text-white font-medium'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                            className={`block px-3 py-2 rounded-md text-sm transition-all duration-200 ${!activeCategory
+                                ? 'bg-primary text-primary-foreground font-medium shadow-sm'
+                                : 'text-foreground/70 hover:bg-muted hover:text-foreground'
                                 }`}
                         >
                             All Products
@@ -52,9 +52,9 @@ function FiltersSidebarInner({ categories, activeCategory }: FiltersSidebarProps
                         <li key={cat.id}>
                             <Link
                                 href={`/shop/${cat.slug}`}
-                                className={`block px-3 py-2 rounded-lg text-sm transition-all ${activeCategory === cat.slug
-                                    ? 'bg-stone-900 text-white font-medium'
-                                    : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+                                className={`block px-3 py-2 rounded-md text-sm transition-all duration-200 ${activeCategory === cat.slug
+                                    ? 'bg-primary text-primary-foreground font-medium shadow-sm'
+                                    : 'text-foreground/70 hover:bg-muted hover:text-foreground'
                                     }`}
                             >
                                 {cat.name}
@@ -66,7 +66,7 @@ function FiltersSidebarInner({ categories, activeCategory }: FiltersSidebarProps
 
             {/* Price Range */}
             <div>
-                <h3 className="text-[11px] font-medium tracking-[0.2em] uppercase text-stone-400 mb-3">
+                <h3 className="text-[11px] font-bold tracking-[0.2em] uppercase text-muted-foreground mb-4">
                     Price Range
                 </h3>
                 <div className="flex items-center gap-2">
@@ -75,15 +75,15 @@ function FiltersSidebarInner({ categories, activeCategory }: FiltersSidebarProps
                         placeholder="Min"
                         value={minPrice}
                         onChange={(e) => applyPrice(e.target.value, maxPrice)}
-                        className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-rose-500/50 focus:border-rose-300"
+                        className="w-full px-3 py-2 bg-background border border-border rounded-md text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     />
-                    <span className="text-stone-300 text-sm">—</span>
+                    <span className="text-muted-foreground/50 text-xs">—</span>
                     <input
                         type="number"
                         placeholder="Max"
                         value={maxPrice}
                         onChange={(e) => applyPrice(minPrice, e.target.value)}
-                        className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-rose-500/50 focus:border-rose-300"
+                        className="w-full px-3 py-2 bg-background border border-border rounded-md text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     />
                 </div>
             </div>
@@ -92,9 +92,9 @@ function FiltersSidebarInner({ categories, activeCategory }: FiltersSidebarProps
             {hasFilters && (
                 <Link
                     href="/shop"
-                    className="inline-block text-xs text-[#036B3F] hover:text-[#025a33] font-medium transition-colors"
+                    className="inline-flex items-center text-xs text-primary hover:text-primary/80 font-semibold transition-colors group"
                 >
-                    ← Reset all filters
+                    <span className="mr-1 group-hover:-translate-x-0.5 transition-transform">←</span> Reset all filters
                 </Link>
             )}
         </aside>

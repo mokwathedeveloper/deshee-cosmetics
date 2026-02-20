@@ -26,34 +26,26 @@ export function Header() {
   return (
     <>
       {/* Announcement Bar */}
-      <div className="bg-primary overflow-hidden whitespace-nowrap">
-        <div className="animate-marquee inline-block py-2">
-          <span className="text-xs text-primary-foreground/90 tracking-wide mx-8">
-            ✨ FREE DELIVERY in Nairobi on orders over KES 5,000
-          </span>
-          <span className="text-xs text-primary-foreground/70 mx-8">|</span>
-          <span className="text-xs text-primary-foreground/90 tracking-wide mx-8">
-            🎁 New arrivals added every week
-          </span>
-          <span className="text-xs text-primary-foreground/70 mx-8">|</span>
-          <span className="text-xs text-primary-foreground/90 tracking-wide mx-8">
-            💯 100% Authentic Products — Original Brands Only
-          </span>
-        </div>
+      <div className="bg-primary py-2 text-center border-b border-primary-foreground/10">
+        <p className="text-[10px] md:text-xs text-primary-foreground font-bold uppercase tracking-[0.2em]">
+          ✨ Free Express Delivery on orders over KES 5,000 • 100% Authentic Guaranteed
+        </p>
       </div>
 
-      {/* Top Bar */}
-      <div className="bg-background border-b">
-        <div className="container flex items-center justify-between py-2">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Phone className="h-3 w-3" />
-            <span>Need help? Call us</span>
+      {/* Top Bar - Simplified */}
+      <div className="bg-background border-b border-border/40 py-1.5">
+        <div className="container flex items-center justify-between">
+          <div className="flex items-center gap-4 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+            <div className="flex items-center gap-1.5">
+              <Phone className="h-3 w-3" />
+              <span>Help: +254 700 000 000</span>
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest">
             <Link href="/account" className="text-muted-foreground hover:text-primary transition-colors">
               My Account
             </Link>
-            <Link href="/admin/login" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/admin/login" className="text-muted-foreground/40 hover:text-primary transition-colors">
               Admin
             </Link>
           </div>
@@ -62,34 +54,26 @@ export function Header() {
 
       {/* Main Header */}
       <header className={cn(
-        "sticky top-0 z-50 bg-background transition-all duration-300",
-        scrolled && "shadow-md"
+        "sticky top-0 z-50 bg-background/80 backdrop-blur-md transition-all duration-300 border-b border-transparent",
+        scrolled && "shadow-sm border-border/40 py-1"
       )}>
         <div className="container">
           <div className="flex items-center justify-between h-16 lg:h-20">
-            {/* Mobile Menu */}
             <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden">
-                  <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80">
-                <div className="flex flex-col h-full">
-                  <div className="py-6">
-                    <Logo />
-                  </div>
-                  <nav className="flex-1 space-y-2">
+              <SheetTrigger asChild><Button variant="ghost" size="icon" className="lg:hidden rounded-full"><Menu className="h-5 w-5" /><span className="sr-only">Toggle menu</span></Button></SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+                <div className="flex flex-col h-full pt-10">
+                  <Logo />
+                  <nav className="mt-12 flex flex-col gap-1">
                     {storeNavItems.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
                         className={cn(
-                          "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors",
+                          "px-4 py-4 text-sm font-bold uppercase tracking-widest rounded-xl transition-all",
                           pathname === item.href
                             ? "bg-primary text-primary-foreground"
-                            : "text-foreground hover:bg-accent"
+                            : "text-foreground hover:bg-muted"
                         )}
                       >
                         {item.label}
@@ -101,49 +85,50 @@ export function Header() {
             </Sheet>
 
             {/* Logo */}
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
               <Logo />
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center bg-muted rounded-full px-2 py-1">
+            <nav className="hidden lg:flex items-center gap-1">
               {storeNavItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "px-6 py-2 text-xs font-semibold tracking-wider uppercase rounded-full transition-all",
-                    pathname === item.href
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-background"
+                    "relative px-5 py-2 text-[11px] font-bold tracking-[0.2em] uppercase transition-all group",
+                    pathname === item.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   {item.label}
+                  <span className={cn(
+                    "absolute bottom-0 left-5 right-5 h-0.5 bg-primary transition-transform duration-300 origin-left",
+                    pathname === item.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  )} />
                 </Link>
               ))}
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <Search className="h-4 w-4" />
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/5 hover:text-primary">
+                <Search className="h-5 w-5" />
                 <span className="sr-only">Search</span>
               </Button>
               
-              <Link href="/account">
-                <Button variant="secondary" size="icon" className="hidden sm:flex rounded-full">
-                  <User className="h-4 w-4" />
+              <Link href="/account" className="hidden sm:block">
+                <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/5 hover:text-primary">
+                  <User className="h-5 w-5" />
                   <span className="sr-only">Account</span>
                 </Button>
               </Link>
               
               <Link href="/cart">
-                <Button variant="secondary" size="icon" className="relative rounded-full">
-                  <ShoppingBag className="h-4 w-4" />
+                <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-primary/5 hover:text-primary">
+                  <ShoppingBag className="h-5 w-5" />
                   {itemCount > 0 && (
                     <Badge 
-                      variant="destructive" 
-                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                      className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] font-bold bg-primary text-primary-foreground border-2 border-background"
                     >
                       {itemCount}
                     </Badge>

@@ -116,7 +116,7 @@ export async function getFeaturedProducts(limit = 4): Promise<ProductWithImages[
         .limit(limit);
 
     if (error) {
-        console.error('Error fetching featured products:', error);
+        console.error('Error fetching featured products:', JSON.stringify(error, null, 2));
         return [];
     }
 

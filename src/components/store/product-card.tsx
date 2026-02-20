@@ -39,9 +39,9 @@ export function ProductCard({ product }: ProductCardProps) {
         : 0;
 
     return (
-        <div className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300">
+        <div className="group bg-card rounded-xl overflow-hidden border border-border/50 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
             {/* Image */}
-            <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 cursor-pointer" onClick={() => router.push(`/product/${product.slug}`)}>
+            <div className="relative aspect-[3/4] overflow-hidden bg-muted/30 cursor-pointer" onClick={() => router.push(`/product/${product.slug}`)}>
                 <Image
                     src={imageUrl}
                     alt={product.name}
@@ -52,7 +52,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
                 {/* Discount Badge */}
                 {hasDiscount && (
-                    <span className="absolute top-3 left-3 z-10 bg-[#FF5722] text-white text-[10px] font-bold px-2 py-1 rounded">
+                    <span className="absolute top-3 left-3 z-10 bg-destructive text-destructive-foreground text-[10px] font-bold px-2 py-1 rounded-sm shadow-sm">
                         -{discountPercent}%
                     </span>
                 )}
@@ -60,7 +60,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 {/* Floating Action Buttons — appear on hover */}
                 <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                     <button
-                        className="w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:text-[#E02B27] hover:scale-110 transition-all"
+                        className="w-9 h-9 rounded-full bg-background/90 backdrop-blur-sm shadow-md flex items-center justify-center text-muted-foreground hover:text-destructive hover:scale-110 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         aria-label="Add to wishlist"
                         onClick={(e) => e.stopPropagation()}
                     >
@@ -71,7 +71,7 @@ export function ProductCard({ product }: ProductCardProps) {
                             e.stopPropagation();
                             router.push(`/product/${product.slug}`);
                         }}
-                        className="w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center text-gray-500 hover:text-[#036B3F] hover:scale-110 transition-all"
+                        className="w-9 h-9 rounded-full bg-background/90 backdrop-blur-sm shadow-md flex items-center justify-center text-muted-foreground hover:text-primary hover:scale-110 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         aria-label="Quick view"
                     >
                         <Eye className="h-4 w-4" />
@@ -82,7 +82,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 <button
                     onClick={handleAddToCart}
                     disabled={product.stock === 0}
-                    className="absolute bottom-0 left-0 right-0 z-10 bg-[#036B3F] text-white text-xs font-semibold uppercase tracking-wider py-3 flex items-center justify-center gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 disabled:bg-gray-400"
+                    className="absolute bottom-0 left-0 right-0 z-10 bg-primary text-primary-foreground text-xs font-semibold uppercase tracking-wider py-3 flex items-center justify-center gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 disabled:bg-muted-foreground/50"
                 >
                     <ShoppingCart className="h-3.5 w-3.5" />
                     {product.stock === 0 ? 'Sold Out' : 'Add to Cart'}
@@ -90,35 +90,35 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
 
             {/* Product Info */}
-            <Link href={`/product/${product.slug}`} className="block p-3.5">
+            <Link href={`/product/${product.slug}`} className="block p-4">
                 {product.brand && (
-                    <p className="text-[10px] font-medium tracking-wider uppercase text-gray-400 mb-1">
+                    <p className="text-[10px] font-semibold tracking-widest uppercase text-muted-foreground/70 mb-1.5">
                         {product.brand}
                     </p>
                 )}
-                <h3 className="text-sm font-medium text-gray-800 leading-snug mb-2 line-clamp-2 group-hover:text-[#036B3F] transition-colors">
+                <h3 className="text-sm font-medium text-foreground leading-snug mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                     {product.name}
                 </h3>
-                <div className="flex items-center gap-1.5 mb-2">
+                <div className="flex items-center gap-1.5 mb-2.5">
                     <div className="flex items-center">
                         {[...Array(5)].map((_, i) => (
                             <Star
                                 key={i}
                                 className={`h-3 w-3 ${i < Math.round(product.rating)
                                         ? 'fill-amber-400 text-amber-400'
-                                        : 'fill-gray-200 text-gray-200'
+                                        : 'fill-muted text-muted'
                                     }`}
                             />
                         ))}
                     </div>
-                    <span className="text-[11px] text-gray-400">({product.rating_count})</span>
+                    <span className="text-[11px] text-muted-foreground font-medium">({product.rating_count})</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-base font-bold text-[#E02B27]">
+                    <span className="text-base font-bold text-primary">
                         {formatCurrency(product.price)}
                     </span>
                     {hasDiscount && (
-                        <span className="text-xs text-gray-400 line-through">
+                        <span className="text-xs text-muted-foreground line-through decoration-muted-foreground/50">
                             {formatCurrency(product.compare_at_price!)}
                         </span>
                     )}

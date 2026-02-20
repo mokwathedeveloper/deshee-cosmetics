@@ -42,10 +42,11 @@ export function Header() {
             </div>
           </div>
           <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest">
-            <Link href="/account" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/account" className="text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm">
               My Account
             </Link>
-            <Link href="/admin/login" className="text-muted-foreground/40 hover:text-primary transition-colors">
+            <span className="w-px h-3 bg-border/60" aria-hidden="true" />
+            <Link href="/admin/login" className="text-muted-foreground/40 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm">
               Admin
             </Link>
           </div>

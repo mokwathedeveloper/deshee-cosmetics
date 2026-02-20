@@ -3,7 +3,7 @@ export const siteConfig = {
     description: 'Premium beauty & skincare products — delivering across Kenya.',
     url: 'https://deshee-cosmetics.co.ke',
     currency: 'KES',
-    logo: '/logo-deeshee.png',
+    logo: '/brand/deesheelogo.png',
 };
 
 export const storeNavItems = [

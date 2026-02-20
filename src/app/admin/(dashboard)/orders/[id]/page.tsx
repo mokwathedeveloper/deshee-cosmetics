@@ -3,14 +3,16 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Calendar, User, Truck, CreditCard, ClipboardList, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LoadingState } from '@/components/ui/loading-state';
 import { createClient } from '@/lib/supabase/client';
 import { updateOrderStatus } from '@/actions/orders';
-import { formatCurrency, formatDate, getStatusColor } from '@/lib/utils';
+import { formatCurrency, formatDate } from '@/lib/utils';
 import type { OrderWithItems } from '@/types/database';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 const statuses = ['new', 'processing', 'shipped', 'delivered', 'cancelled'];
 
@@ -46,111 +48,197 @@ export default function AdminOrderDetailPage() {
         }
 
         setOrder((prev) => prev ? { ...prev, status: status as OrderWithItems['status'] } : prev);
-        toast.success(`Status updated to ${status}`);
+        toast.success(`Operational status updated to ${status}`);
     }
 
-    if (loading) return <LoadingState />;
-    if (!order) return <p className="text-center py-20 text-muted-foreground">Order not found</p>;
+    if (loading) return (
+        <div className="py-20 flex justify-center">
+            <LoadingState />
+        </div>
+    );
+    
+    if (!order) return (
+        <div className="py-20 text-center">
+            <p className="text-xl font-bold text-muted-foreground">Order record not found</p>
+            <Button asChild variant="link" className="mt-4">
+                <Link href="/admin/orders">Return to Ledger</Link>
+            </Button>
+        </div>
+    );
 
     return (
-        <div>
-            <Link href="/admin/orders" className="inline-flex items-center gap-1 text-sm text-pink-500 hover:text-pink-600 mb-4">
-                <ArrowLeft className="h-4 w-4" /> Back to Orders
-            </Link>
+        <div className="space-y-10 animate-in fade-in duration-700">
+            {/* Header Area */}
+            <div className="space-y-6">
+                <Button asChild variant="ghost" className="rounded-full px-4 -ml-4 text-muted-foreground hover:text-primary">
+                    <Link href="/admin/orders">
+                        <ArrowLeft className="mr-2 h-4 w-4" /> Ledger Overview
+                    </Link>
+                </Button>
 
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">{order.order_number}</h1>
-                    <p className="text-sm text-muted-foreground">{formatDate(order.created_at)}</p>
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-border/40">
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                            <Badge className="bg-primary text-primary-foreground font-black uppercase tracking-widest text-[10px] rounded-full px-3 py-0.5">
+                                {order.status}
+                            </Badge>
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Internal Record</span>
+                        </div>
+                        <h1 className="text-3xl md:text-5xl font-black text-foreground tracking-tighter uppercase">
+                            {order.order_number}
+                        </h1>
+                        <div className="flex items-center gap-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                            <div className="flex items-center gap-1.5">
+                                <Calendar className="h-3.5 w-3.5 opacity-40" />
+                                <span>{formatDate(order.created_at)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Button variant="outline" className="rounded-xl font-black text-[10px] uppercase tracking-widest px-6 h-12 border-border/60">
+                            Print Invoice
+                        </Button>
+                    </div>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
-                    {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                </span>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-6">
-                {/* Order Items */}
-                <div className="lg:col-span-2">
-                    <div className="bg-white border rounded-lg overflow-hidden">
-                        <table className="w-full text-sm">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="text-left px-4 py-3 font-medium">Product</th>
-                                    <th className="text-right px-4 py-3 font-medium">Price</th>
-                                    <th className="text-right px-4 py-3 font-medium">Qty</th>
-                                    <th className="text-right px-4 py-3 font-medium">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y">
-                                {order.order_items.map((item) => (
-                                    <tr key={item.id}>
-                                        <td className="px-4 py-3">{item.name}</td>
-                                        <td className="px-4 py-3 text-right">{formatCurrency(item.unit_price)}</td>
-                                        <td className="px-4 py-3 text-right">{item.quantity}</td>
-                                        <td className="px-4 py-3 text-right font-medium">{formatCurrency(item.line_total)}</td>
+            <div className="grid lg:grid-cols-3 gap-8">
+                {/* Order Items & Timeline */}
+                <div className="lg:col-span-2 space-y-8">
+                    <div className="bg-card rounded-[40px] border border-border/50 shadow-sm overflow-hidden">
+                        <div className="p-8 border-b border-border/40 bg-muted/10">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
+                                    <ClipboardList className="h-5 w-5" />
+                                </div>
+                                <h2 className="text-xl font-bold tracking-tight text-foreground uppercase">Manifest</h2>
+                            </div>
+                        </div>
+                        
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="bg-muted/30">
+                                        <th className="text-left px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Product Detail</th>
+                                        <th className="text-right px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Unit Price</th>
+                                        <th className="text-right px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Quantity</th>
+                                        <th className="text-right px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Extended</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <div className="p-4 border-t bg-gray-50">
-                            <div className="flex justify-between text-sm">
-                                <span>Subtotal</span><span>{formatCurrency(order.subtotal)}</span>
-                            </div>
-                            <div className="flex justify-between text-sm mt-1">
-                                <span>Shipping</span><span className="text-green-600">Free</span>
-                            </div>
-                            <div className="flex justify-between font-semibold text-base mt-2 pt-2 border-t">
-                                <span>Total</span><span>{formatCurrency(order.total)}</span>
+                                </thead>
+                                <tbody className="divide-y divide-border/40">
+                                    {order.order_items.map((item) => (
+                                        <tr key={item.id} className="group">
+                                            <td className="px-8 py-5">
+                                                <p className="font-bold text-sm text-foreground tracking-tight">{item.name}</p>
+                                            </td>
+                                            <td className="px-8 py-5 text-right font-medium text-muted-foreground text-sm">
+                                                {formatCurrency(item.unit_price)}
+                                            </td>
+                                            <td className="px-8 py-5 text-right font-black text-foreground text-sm">
+                                                {item.quantity}
+                                            </td>
+                                            <td className="px-8 py-5 text-right font-black text-foreground text-sm">
+                                                {formatCurrency(item.line_total)}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div className="p-8 bg-muted/10 border-t border-border/40">
+                            <div className="max-w-xs ml-auto space-y-3">
+                                <div className="flex justify-between text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                                    <span>Subtotal</span>
+                                    <span>{formatCurrency(order.subtotal)}</span>
+                                </div>
+                                <div className="flex justify-between text-xs font-bold text-emerald-600 uppercase tracking-widest">
+                                    <span>Shipping</span>
+                                    <span>Free</span>
+                                </div>
+                                <Separator className="my-4 bg-border/40" />
+                                <div className="flex justify-between items-end">
+                                    <span className="text-sm font-black uppercase tracking-widest text-foreground">Final Total</span>
+                                    <span className="text-2xl font-black text-primary tracking-tighter">{formatCurrency(order.total)}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Sidebar */}
-                <div className="space-y-4">
-                    {/* Customer Info */}
-                    <div className="bg-white border rounded-lg p-4">
-                        <h3 className="font-semibold mb-3">Customer</h3>
-                        <div className="text-sm space-y-1 text-gray-600">
-                            <p className="font-medium text-gray-900">{order.customer_name}</p>
-                            <p>{order.customer_email}</p>
-                            {order.customer_phone && <p>{order.customer_phone}</p>}
+                    {/* Operational Controls */}
+                    <div className="bg-card rounded-[40px] border border-border/50 p-8 space-y-6 shadow-sm">
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
+                                <Clock className="h-5 w-5" />
+                            </div>
+                            <h2 className="text-xl font-bold tracking-tight text-foreground uppercase">Operational Status</h2>
                         </div>
-                    </div>
-
-                    {/* Shipping */}
-                    <div className="bg-white border rounded-lg p-4">
-                        <h3 className="font-semibold mb-3">Shipping Address</h3>
-                        <div className="text-sm text-gray-600">
-                            <p>{order.shipping_address}</p>
-                            <p>{order.shipping_city}</p>
-                        </div>
-                    </div>
-
-                    {/* Update Status */}
-                    <div className="bg-white border rounded-lg p-4">
-                        <h3 className="font-semibold mb-3">Update Status</h3>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 pt-2">
                             {statuses.map((s) => (
                                 <Button
                                     key={s}
                                     variant={order.status === s ? 'default' : 'outline'}
-                                    size="sm"
                                     disabled={updating || order.status === s}
                                     onClick={() => handleStatusChange(s)}
-                                    className={order.status === s ? 'bg-pink-500 hover:bg-pink-600' : ''}
+                                    className={`rounded-xl h-12 px-6 font-black text-[10px] uppercase tracking-widest transition-all ${
+                                        order.status === s 
+                                            ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
+                                            : 'border-border/60 hover:bg-primary/5 hover:text-primary'
+                                    }`}
                                 >
-                                    {s.charAt(0).toUpperCase() + s.slice(1)}
+                                    {s}
                                 </Button>
                             ))}
                         </div>
                     </div>
+                </div>
 
-                    {/* Notes */}
+                {/* Sidebar Logistics */}
+                <div className="space-y-8">
+                    {/* Customer Identity */}
+                    <div className="bg-card rounded-[40px] border border-border/50 p-8 space-y-6 shadow-sm relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 blur-2xl" />
+                        <div className="flex items-center gap-3 relative z-10">
+                            <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
+                                <User className="h-5 w-5" />
+                            </div>
+                            <h3 className="font-bold text-lg tracking-tight uppercase">Customer</h3>
+                        </div>
+                        <div className="space-y-4 relative z-10">
+                            <div className="space-y-1">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-60">Full Name</p>
+                                <p className="font-bold text-foreground">{order.customer_name}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-60">Communication</p>
+                                <p className="font-medium text-foreground">{order.customer_email}</p>
+                                {order.customer_phone && <p className="font-medium text-foreground">{order.customer_phone}</p>}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Logistics */}
+                    <div className="bg-card rounded-[40px] border border-border/50 p-8 space-y-6 shadow-sm">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
+                                <Truck className="h-5 w-5" />
+                            </div>
+                            <h3 className="font-bold text-lg tracking-tight uppercase">Logistics</h3>
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-60">Destination</p>
+                            <p className="font-medium text-foreground leading-relaxed">
+                                {order.shipping_address}<br />
+                                {order.shipping_city}, Kenya
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Internal Notes */}
                     {order.notes && (
-                        <div className="bg-white border rounded-lg p-4">
-                            <h3 className="font-semibold mb-2">Notes</h3>
-                            <p className="text-sm text-gray-600">{order.notes}</p>
+                        <div className="bg-muted/30 rounded-[40px] border border-border/50 p-8 space-y-4 border-dashed">
+                            <h3 className="text-xs font-black uppercase tracking-widest text-muted-foreground">Client Instructions</h3>
+                            <p className="text-sm font-medium text-foreground leading-relaxed italic">&ldquo;{order.notes}&rdquo;</p>
                         </div>
                     )}
                 </div>

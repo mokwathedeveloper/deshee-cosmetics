@@ -14,7 +14,8 @@ import type { Category, Product } from '@/types/database';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Badge } from '@/components/ui/badge';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -87,183 +88,227 @@ export function ProductForm({ product }: ProductFormProps) {
             return;
         }
 
-        toast.success(product ? 'Product updated' : 'Product created');
+        toast.success(product ? 'Product record updated' : 'New product registered');
         router.push('/admin/products');
         router.refresh();
     }
 
     return (
-        <div>
-            <Link href="/admin/products" className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary/80 mb-4">
-                <ArrowLeft className="h-4 w-4" /> Back to Products
-            </Link>
-            <h1 className="text-2xl font-bold text-foreground mb-6">
-                {product ? 'Edit Product' : 'Add New Product'}
-            </h1>
+        <div className="space-y-10 animate-in fade-in duration-700">
+            {/* Header Area */}
+            <div className="space-y-6">
+                <Button asChild variant="ghost" className="rounded-full px-4 -ml-4 text-muted-foreground hover:text-primary transition-all">
+                    <Link href="/admin/products">
+                        <ArrowLeft className="mr-2 h-4 w-4" /> Ledger Overview
+                    </Link>
+                </Button>
+
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
+                    <div className="space-y-1">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary">Catalog Management</p>
+                        <h1 className="text-3xl md:text-5xl font-black text-foreground tracking-tighter uppercase">
+                            {product ? 'Edit' : 'Register'} <span className="text-primary/40 font-serif lowercase italic font-normal tracking-normal ml-2">product</span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white border rounded-lg p-6 space-y-5 max-w-2xl">
-                    <div className="grid sm:grid-cols-2 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Product Name *</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="slug"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Slug</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-4xl">
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Main Identity Card */}
+                        <div className="bg-card rounded-[40px] border border-border/50 p-8 space-y-6 shadow-sm relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 blur-2xl" />
+                            <h3 className="text-xs font-black uppercase tracking-widest text-primary relative z-10">Product Identity</h3>
+                            
+                            <div className="space-y-5 relative z-10">
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Market Name</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20" placeholder="e.g. Ultra Hydrating Serum" />
+                                            </FormControl>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="slug"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">System Identifier (Slug)</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20" placeholder="ultra-hydrating-serum" />
+                                            </FormControl>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="brand"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Manufacturer / Brand</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20" placeholder="e.g. Cerave" />
+                                            </FormControl>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Valuation & Inventory Card */}
+                        <div className="bg-card rounded-[40px] border border-border/50 p-8 space-y-6 shadow-sm">
+                            <h3 className="text-xs font-black uppercase tracking-widest text-primary">Commercials</h3>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                                <FormField
+                                    control={form.control}
+                                    name="price"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Retail Price</FormLabel>
+                                            <FormControl>
+                                                <Input type="number" step="0.01" {...field} className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20 font-black" onChange={e => field.onChange(parseFloat(e.target.value))} />
+                                            </FormControl>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="compare_at_price"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Market Valuation</FormLabel>
+                                            <FormControl>
+                                                <Input type="number" step="0.01" {...field} value={field.value ?? ''} className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20 opacity-60" onChange={e => field.onChange(e.target.value ? parseFloat(e.target.value) : null)} />
+                                            </FormControl>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 pt-2">
+                                <FormField
+                                    control={form.control}
+                                    name="stock"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Inventory Count</FormLabel>
+                                            <FormControl>
+                                                <Input type="number" {...field} className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20 font-bold" onChange={e => field.onChange(parseInt(e.target.value))} />
+                                            </FormControl>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="sku"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Stock Keeping Unit</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20 font-mono text-xs uppercase" placeholder="SKU-000" />
+                                            </FormControl>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        </div>
                     </div>
-                     <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Description</FormLabel>
-                                <FormControl>
-                                    <Textarea {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <div className="grid sm:grid-cols-3 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="price"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Price *</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" step="0.01" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="compare_at_price"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Compare at Price</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" step="0.01" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value ? parseFloat(e.target.value) : null)} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="stock"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Stock *</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="grid sm:grid-cols-3 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="sku"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>SKU</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="brand"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Brand</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                            control={form.control}
-                            name="category_id"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Category</FormLabel>
-                                     <Select onValueChange={field.onChange} defaultValue={field.value ?? ""}>
+
+                    <div className="grid md:grid-cols-12 gap-8">
+                        {/* Narrative & Categorization */}
+                        <div className="md:col-span-8 bg-card rounded-[40px] border border-border/50 p-8 space-y-6 shadow-sm">
+                            <h3 className="text-xs font-black uppercase tracking-widest text-primary">Content & Classification</h3>
+                            
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-1.5">
+                                        <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Product Description</FormLabel>
                                         <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select a category" />
-                                            </SelectTrigger>
+                                            <Textarea {...field} rows={6} className="rounded-[24px] bg-muted/30 border-border/50 focus:ring-primary/20 leading-relaxed p-5" placeholder="Elaborate on product features and benefits..." />
                                         </FormControl>
-                                        <SelectContent>
-                                            <SelectItem value="">No category</SelectItem>
-                                            {categories.map((cat) => (
-                                                <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                     <FormField
-                        control={form.control}
-                        name="status"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Status</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select status" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="active">Active</SelectItem>
-                                        <SelectItem value="inactive">Inactive</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <div className="flex gap-3 pt-2">
-                        <Button type="submit" disabled={formState.isSubmitting} className="bg-primary hover:bg-primary/90">
-                            {formState.isSubmitting ? 'Saving...' : product ? 'Update Product' : 'Create Product'}
-                        </Button>
-                        <Link href="/admin/products">
-                            <Button type="button" variant="outline">Cancel</Button>
-                        </Link>
+                                        <FormMessage className="text-[10px]" />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <div className="md:col-span-4 space-y-8">
+                            <div className="bg-card rounded-[40px] border border-border/50 p-8 space-y-6 shadow-sm relative overflow-hidden">
+                                <h3 className="text-xs font-black uppercase tracking-widest text-primary">Status & Taxonomy</h3>
+                                
+                                <FormField
+                                    control={form.control}
+                                    name="category_id"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Sector Assignment</FormLabel>
+                                             <Select onValueChange={field.onChange} defaultValue={field.value ?? ""}>
+                                                <FormControl>
+                                                    <SelectTrigger className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20 text-xs font-bold uppercase tracking-widest">
+                                                        <SelectValue placeholder="Select Category" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent className="rounded-2xl">
+                                                    <SelectItem value="" className="text-[10px] font-bold uppercase tracking-widest">Unassigned</SelectItem>
+                                                    {categories.map((cat) => (
+                                                        <SelectItem key={cat.id} value={cat.id} className="text-[10px] font-bold uppercase tracking-widest">{cat.name}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="status"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1.5">
+                                            <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Operational State</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="rounded-xl h-12 bg-muted/30 border-border/50 focus:ring-primary/20 text-xs font-bold uppercase tracking-widest">
+                                                        <SelectValue placeholder="Status" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent className="rounded-2xl">
+                                                    <SelectItem value="active" className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Active</SelectItem>
+                                                    <SelectItem value="inactive" className="text-[10px] font-bold uppercase tracking-widest text-destructive">Inactive</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage className="text-[10px]" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            {/* Submission Panel */}
+                            <div className="flex flex-col gap-3">
+                                <Button type="submit" disabled={formState.isSubmitting} className="w-full h-16 rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-primary/20 transition-all hover:-translate-y-1 active:translate-y-0">
+                                    {formState.isSubmitting ? 'Syncing...' : product ? 'Commit Changes' : 'Initialize Record'}
+                                </Button>
+                                <Button asChild variant="ghost" className="w-full h-14 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                                    <Link href="/admin/products">Discard Changes</Link>
+                                </Button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </Form>

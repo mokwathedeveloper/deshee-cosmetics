@@ -18,14 +18,16 @@ export function Footer() {
                         </p>
                         <div className="flex items-center gap-3">
                             {[
-                                { icon: Instagram, label: 'Instagram' },
-                                { icon: Facebook, label: 'Facebook' },
-                                { icon: Twitter, label: 'Twitter' },
-                                { icon: Mail, label: 'Email' },
+                                { icon: Instagram, label: 'Instagram', href: 'https://instagram.com' },
+                                { icon: Facebook, label: 'Facebook', href: 'https://facebook.com' },
+                                { icon: Twitter, label: 'Twitter', href: 'https://twitter.com' },
+                                { icon: Mail, label: 'Email', href: 'mailto:support@deeshee.com' },
                             ].map((social) => (
                                 <a
                                     key={social.label}
-                                    href="#"
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     aria-label={social.label}
                                     className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                                 >

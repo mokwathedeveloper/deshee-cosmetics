@@ -65,18 +65,14 @@ export function Hero() {
                     {/* Right Visual */}
                     <div className="lg:col-span-5 relative animate-in fade-in slide-in-from-right duration-1000 delay-200">
                         <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl border-4 border-white">
-                            {/* 
-                                NOTE: Replace with actual high-res hero image /public/hero.jpg 
-                                For now, using a premium looking placeholder via a styled div + gradient
-                            */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/5 to-accent/20 flex items-center justify-center">
-                                <div className="text-center p-8">
-                                    <div className="w-24 h-24 bg-white/50 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4 border border-white/20">
-                                        <Image src="/logo.svg" alt="Logo" width={48} height={48} className="opacity-40" />
-                                    </div>
-                                    <p className="text-sm font-bold text-primary/40 uppercase tracking-[0.3em]">Premium Aesthetics</p>
-                                </div>
-                            </div>
+                            <Image 
+                                src="/hero.jpg" 
+                                alt="Premium organic skincare products" 
+                                fill 
+                                className="object-cover"
+                                priority
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
                             
                             {/* Floating Card Detail */}
                             <div className="absolute bottom-6 left-6 right-6 bg-white/80 backdrop-blur-xl p-5 rounded-3xl border border-white/40 shadow-xl hidden sm:block">

@@ -46,7 +46,7 @@ export function Header() {
               My Account
             </Link>
             <span className="w-px h-3 bg-border/60" aria-hidden="true" />
-            <Link href="/admin/login" className="text-muted-foreground/40 hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm">
+            <Link href="/admin/login" className="text-xs text-muted-foreground/60 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm">
               Admin
             </Link>
           </div>

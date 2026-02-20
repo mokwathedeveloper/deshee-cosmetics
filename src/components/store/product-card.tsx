@@ -102,7 +102,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 <div className="flex items-center gap-1.5 mb-2.5">
                     {product.rating > 0 ? (
                         <>
-                            <div className="flex items-center" aria-label={`Rating: ${product.rating} out of 5 stars`}>
+                            <div className="flex items-center" aria-label={`Rated ${product.rating} out of 5`}>
                                 {[...Array(5)].map((_, i) => (
                                     <Star
                                         key={i}
@@ -116,7 +116,7 @@ export function ProductCard({ product }: ProductCardProps) {
                             <span className="text-[11px] text-muted-foreground font-medium">({product.rating_count})</span>
                         </>
                     ) : (
-                        <span className="text-[11px] text-muted-foreground italic font-medium">No reviews yet</span>
+                        <span className="text-xs text-muted-foreground">No reviews yet</span>
                     )}
                 </div>
                 <div className="flex items-center gap-2">

@@ -67,11 +67,10 @@ export function Hero() {
                         <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl border-4 border-white">
                             <Image 
                                 src="/hero.jpg" 
-                                alt="Premium organic skincare products" 
+                                alt="Cosmetics essentials — DeeShee Beauty Empire" 
                                 fill 
                                 className="object-cover"
-                                priority
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                sizes="(min-width: 1024px) 50vw, 100vw"
                             />
                             
                             {/* Floating Card Detail */}
